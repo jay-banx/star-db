@@ -15,22 +15,22 @@ class RandomPlanet extends Component {
     error: false
   };
 
-  constructor() {
-    super();
+  componentDidMount() {
     this.updatePlanet();
+    // this.interval = setInterval(this.updatePlanet, 5000);
   }
 
   onPlanetLoaded = planet => {
     this.setState({ planet, loading: false });
   };
 
-  updatePlanet() {
+  updatePlanet = () => {
     const id = Math.floor(Math.random() * 20) + 2;
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  }
+  };
 
   onError = err => {
     this.setState({
@@ -44,13 +44,13 @@ class RandomPlanet extends Component {
 
     const hasData = !(loading || error);
 
-    const errorIndicator = error ? <ErrorIndicator /> : null;
+    const errorMessage = error ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
     const planetView = hasData ? <PlanetView planet={planet} /> : null;
 
     return (
       <div className="random-planet jumbotron rounded">
-        {errorIndicator}
+        {errorMessage}
         {spinner}
         {planetView}
       </div>
