@@ -10,14 +10,18 @@ class RandomPlanet extends Component {
   swapiService = new SwapiService();
 
   state = {
-    planet: {},
+    planet: null,
     loading: true,
     error: false
   };
 
   componentDidMount() {
     this.updatePlanet();
-    // this.interval = setInterval(this.updatePlanet, 5000);
+    this.interval = setInterval(this.updatePlanet, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   onPlanetLoaded = planet => {
@@ -26,10 +30,13 @@ class RandomPlanet extends Component {
 
   updatePlanet = () => {
     const id = Math.floor(Math.random() * 20) + 2;
-    this.swapiService
-      .getPlanet(id)
-      .then(this.onPlanetLoaded)
-      .catch(this.onError);
+
+    this.setState({ loading: true, error: false }, () => {
+      this.swapiService
+        .getPlanet(id)
+        .then(this.onPlanetLoaded)
+        .catch(this.onError);
+    });
   };
 
   onError = err => {
@@ -73,15 +80,15 @@ const PlanetView = ({ planet }) => {
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
-            <span className="term">Population</span>
+            <span className="term">Population:</span>
             <span>{population}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Rotation Period</span>
+            <span className="term">Rotation Period:</span>
             <span>{rotationPeriod}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Diameter</span>
+            <span className="term">Diameter:</span>
             <span>{diameter}</span>
           </li>
         </ul>

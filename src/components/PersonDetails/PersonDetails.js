@@ -19,7 +19,6 @@ class PersonDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("componentDidUpdate");
     if (this.props.personId !== prevProps.personId) {
       this.updatePerson();
     }
@@ -43,7 +42,7 @@ class PersonDetails extends Component {
       return;
     }
 
-    this.setState({ loading: true }, () => {
+    this.setState({ loading: true, error: false }, () => {
       this.swapiService
         .getPerson(personId)
         .then(this.onUpdatePerson)
@@ -85,15 +84,15 @@ const PersonView = ({ person }) => {
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
-            <span className="term">Gender</span>
+            <span className="term">Gender:</span>
             <span>{gender}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Birth year</span>
+            <span className="term">Birth year:</span>
             <span>{birthYear}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Eye color</span>
+            <span className="term">Eye color:</span>
             <span>{eyeColor}</span>
           </li>
         </ul>
