@@ -1,5 +1,6 @@
 class SwapiService {
   _apiBase = "https://swapi.co/api";
+  _imageBase = "https://starwars-visualguide.com/assets/img";
 
   getResource = async url => {
     const res = await fetch(`${this._apiBase}${url}`);
@@ -10,19 +11,18 @@ class SwapiService {
     return await res.json();
   };
 
-  getAllPeople = async () => {
-    const res = await this.getResource(`/people/`);
-    return res.results.map(this._transformPerson);
-  };
-
   getPerson = async id => {
     const person = await this.getResource(`/people/${id}`);
     return this._transformPerson(person);
   };
 
-  getAllPlanets = async () => {
-    const res = await this.getResource(`/planets/`);
-    return res.results.map(this._transformPlanet);
+  getPersonImageUrl = id => {
+    return `${this._imageBase}/characters/${id}.jpg`;
+  };
+
+  getAllPeople = async () => {
+    const res = await this.getResource(`/people/`);
+    return res.results.map(this._transformPerson);
   };
 
   getPlanet = async id => {
@@ -30,14 +30,27 @@ class SwapiService {
     return this._transformPlanet(planet);
   };
 
-  getAllStarships = async () => {
-    const res = await this.getResource(`/starships/`);
-    return res.results.map(this._transformStarship);
+  getPlanetImageUrl = id => {
+    return `${this._imageBase}/planets/${id}.jpg`;
+  };
+
+  getAllPlanets = async () => {
+    const res = await this.getResource(`/planets/`);
+    return res.results.map(this._transformPlanet);
   };
 
   getStarship = async id => {
     const starship = await this.getResource(`/starships/${id}`);
     return this._transformStarship(starship);
+  };
+
+  getStarshipImageUrl = id => {
+    return `${this._imageBase}/starships/${id}.jpg`;
+  };
+
+  getAllStarships = async () => {
+    const res = await this.getResource(`/starships/`);
+    return res.results.map(this._transformStarship);
   };
 
   _extractId = item => {
@@ -46,8 +59,12 @@ class SwapiService {
   };
 
   _transformPlanet = planet => {
+    const id = this._extractId(planet);
+    const imageURL = this.getPlanetImageUrl(id);
+
     return {
-      id: this._extractId(planet),
+      id,
+      imageURL,
       name: planet.name,
       population: planet.population,
       rotationPeriod: planet.rotation_period,
@@ -56,8 +73,12 @@ class SwapiService {
   };
 
   _transformPerson = person => {
+    const id = this._extractId(person);
+    const imageURL = this.getPersonImageUrl(id);
+
     return {
-      id: this._extractId(person),
+      id,
+      imageURL,
       name: person.name,
       gender: person.gender,
       birthYear: person.birth_year,
@@ -66,8 +87,12 @@ class SwapiService {
   };
 
   _transformStarship = starship => {
+    const id = this._extractId(starship);
+    const imageURL = this.getStarshipImageUrl(id);
+
     return {
-      id: this._extractId(starship),
+      id,
+      imageURL,
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,

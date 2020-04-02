@@ -11,18 +11,18 @@ class ItemDetails extends Component {
   swapiService = new SwapiService();
 
   state = {
-    person: null,
+    item: null,
     loading: true,
     hasError: false
   };
 
   componentDidMount() {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) {
-      this.updatePerson();
+    if (this.props.itemId !== prevProps.itemId) {
+      this.updateItem();
     }
   }
 
@@ -30,81 +30,75 @@ class ItemDetails extends Component {
     this.setState({ hasError: true, loading: false });
   }
 
-  onError = err => {
+  onError = () => {
     this.setState({
       loading: false,
       hasError: true
     });
   };
 
-  onUpdatePerson = person => {
-    this.setState({ person, loading: false });
+  onUpdateItem = item => {
+    this.setState({
+      item,
+      loading: false
+    });
   };
 
-  updatePerson() {
-    const { personId } = this.props;
+  updateItem() {
+    const { itemId, getData } = this.props;
 
-    if (!personId) {
+    if (!itemId) {
       return;
     }
 
     this.setState({ loading: true, hasError: false }, () => {
-      this.swapiService
-        .getPerson(personId)
-        .then(this.onUpdatePerson)
+      getData(itemId)
+        .then(this.onUpdateItem)
         .catch(this.onError);
     });
   }
 
   render() {
-    const { person, loading, hasError } = this.state;
+    const { item, loading, hasError } = this.state;
 
     const hasData = !(loading || hasError);
 
     const errorMessage = hasError ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const personView = hasData ? <PersonView person={person} /> : null;
+    const itemView = hasData ? (
+      <React.Fragment>
+        <img className="item-image" src={item.imageURL} alt="" />
+
+        <div className="card-body">
+          <h4>{item.name}</h4>
+          <ul className="list-group list-group-flush">
+            {React.Children.map(this.props.children, child => {
+              return React.cloneElement(child, { item });
+            })}
+          </ul>
+        </div>
+      </React.Fragment>
+    ) : null;
 
     return (
-      <div className="person-details card">
+      <div className="item-details card">
         {errorMessage}
         {spinner}
-        {personView}
+        {itemView}
       </div>
     );
   }
 }
 
-const PersonView = ({ person }) => {
-  const { id, name, gender, birthYear, eyeColor } = person;
-
+const Record = ({ item, field, label }) => {
   return (
-    <React.Fragment>
-      <img
-        className="person-image"
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        alt=""
-      />
-
-      <div className="card-body">
-        <h4>{name}</h4>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <span className="term">Gender:</span>
-            <span>{gender}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Birth year:</span>
-            <span>{birthYear}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Eye color:</span>
-            <span>{eyeColor}</span>
-          </li>
-        </ul>
-      </div>
-    </React.Fragment>
+    <li className="list-group-item">
+      <span className="term">{label}</span>
+      <span>{item[field]}</span>
+    </li>
   );
 };
+
+export { Record };
 
 export default ItemDetails;
