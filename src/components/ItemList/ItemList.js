@@ -45,8 +45,24 @@ class ItemList extends Component {
     this.setState({ hasError: true, loading: false });
   }
 
+  renderItems(arr) {
+    return arr.map(item => {
+      const { id } = item;
+      const label = this.props.children(item);
+
+      return (
+        <li
+          className="list-group-item"
+          key={id}
+          onClick={() => this.props.onSelectedItem(id)}
+        >
+          {label}
+        </li>
+      );
+    });
+  }
+
   render() {
-    const { onSelectedItem, renderItem } = this.props;
     const { itemList, loading, hasError } = this.state;
 
     const hasData = !(loading || hasError);
@@ -54,11 +70,7 @@ class ItemList extends Component {
     const errorMessage = hasError ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
     const itemsView = hasData ? (
-      <ItemsView
-        itemList={itemList}
-        onSelectedItem={onSelectedItem}
-        renderItem={renderItem}
-      />
+      <ul className="item-list list-group">{this.renderItems(itemList)}</ul>
     ) : null;
 
     return (
@@ -70,22 +82,5 @@ class ItemList extends Component {
     );
   }
 }
-
-const ItemsView = ({ itemList, onSelectedItem, renderItem }) => {
-  const itemListItems = itemList.map(item => {
-    const { id } = item;
-    return (
-      <li
-        key={id}
-        className="list-group-item"
-        onClick={() => onSelectedItem(id)}
-      >
-        {renderItem(item)}
-      </li>
-    );
-  });
-
-  return <ul className="item-list list-group">{itemListItems}</ul>;
-};
 
 export default ItemList;

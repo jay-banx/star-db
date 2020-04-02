@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-import "./PersonDetails.css";
+import "./ItemDetails.css";
 
 import SwapiService from "../../services/SwapiService";
 
 import ErrorIndicator from "../ErrorIndicator";
 import Spinner from "../Spinner";
 
-class PersonDetails extends Component {
+class ItemDetails extends Component {
   swapiService = new SwapiService();
 
   state = {
@@ -107,4 +107,4 @@ const PersonView = ({ person }) => {
   );
 };
 
-export default PersonDetails;
+export default ItemDetails;
