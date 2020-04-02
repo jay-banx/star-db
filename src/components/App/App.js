@@ -4,32 +4,29 @@ import "./App.css";
 
 import Header from "../Header";
 import RandomPlanet from "../RandomPlanet";
-import ItemList from "../ItemList";
-import PersonDetails from "../PersonDetails";
+import PeoplePage from "../PeoplePage";
+import ErrorIndicator from "../ErrorIndicator";
 
 class App extends Component {
   state = {
-    idSelectedPerson: null
+    hasError: false
   };
 
-  onSelectedPerson = idSelectedPerson => {
-    this.setState({ idSelectedPerson });
-  };
-
+  componentDidCatch() {
+    this.setState({ hasError: true });
+  }
   render() {
+    const { hasError } = this.state;
+
+    if (hasError) {
+      return <ErrorIndicator />;
+    }
+
     return (
       <div className="app">
         <Header />
         <RandomPlanet />
-
-        <div className="row mb2">
-          <div className="col-md-6">
-            <ItemList onSelectedPerson={this.onSelectedPerson} />
-          </div>
-          <div className="col-md-6">
-            <PersonDetails personId={this.state.idSelectedPerson} />
-          </div>
-        </div>
+        <PeoplePage />
       </div>
     );
   }

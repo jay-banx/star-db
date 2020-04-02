@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 import "./PersonDetails.css";
+
 import SwapiService from "../../services/SwapiService";
+
 import ErrorIndicator from "../ErrorIndicator";
 import Spinner from "../Spinner";
 
@@ -11,7 +13,7 @@ class PersonDetails extends Component {
   state = {
     person: null,
     loading: true,
-    error: false
+    hasError: false
   };
 
   componentDidMount() {
@@ -24,10 +26,14 @@ class PersonDetails extends Component {
     }
   }
 
+  componentDidCatch() {
+    this.setState({ hasError: true, loading: false });
+  }
+
   onError = err => {
     this.setState({
       loading: false,
-      error: true
+      hasError: true
     });
   };
 
@@ -42,7 +48,7 @@ class PersonDetails extends Component {
       return;
     }
 
-    this.setState({ loading: true, error: false }, () => {
+    this.setState({ loading: true, hasError: false }, () => {
       this.swapiService
         .getPerson(personId)
         .then(this.onUpdatePerson)
@@ -51,11 +57,11 @@ class PersonDetails extends Component {
   }
 
   render() {
-    const { person, loading, error } = this.state;
+    const { person, loading, hasError } = this.state;
 
-    const hasData = !(loading || error);
+    const hasData = !(loading || hasError);
 
-    const errorMessage = error ? <ErrorIndicator /> : null;
+    const errorMessage = hasError ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
     const personView = hasData ? <PersonView person={person} /> : null;
 

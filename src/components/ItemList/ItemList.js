@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 import "./ItemList.css";
+
 import SwapiService from "../../services/SwapiService";
+
 import Spinner from "../Spinner";
 import ErrorIndicator from "../ErrorIndicator";
 
@@ -9,72 +11,81 @@ class ItemList extends Component {
   swapiService = new SwapiService();
 
   state = {
-    peopleList: null,
+    itemList: null,
     loading: true,
-    error: false
+    hasError: false
   };
 
-  onGetPeopleList = peopleList => {
-    this.setState({ peopleList, loading: false });
-    this.props.onSelectedPerson(peopleList[0].id);
+  onGetItemList = itemList => {
+    this.setState({ itemList, loading: false });
+    this.props.onSelectedItem(itemList[0].id);
   };
 
-  getPeopleList = () => {
-    this.setState({ loading: true, error: false }, () => {
-      this.swapiService
-        .getAllPeople()
-        .then(this.onGetPeopleList)
+  getItemList = () => {
+    const { getData } = this.props;
+    this.setState({ loading: true, hasError: false }, () => {
+      getData()
+        .then(this.onGetItemList)
         .catch(this.onError);
     });
   };
 
   onError = err => {
     this.setState({
-      error: true,
+      hasError: true,
       loading: false
     });
   };
 
   componentDidMount() {
-    this.getPeopleList();
+    this.getItemList();
+  }
+
+  componentDidCatch() {
+    this.setState({ hasError: true, loading: false });
   }
 
   render() {
-    const { onSelectedPerson } = this.props;
-    const { peopleList, loading, error } = this.state;
+    const { onSelectedItem, renderItem } = this.props;
+    const { itemList, loading, hasError } = this.state;
 
-    const hasData = !(loading || error);
+    const hasData = !(loading || hasError);
 
-    const errorMessage = error ? <ErrorIndicator /> : null;
+    const errorMessage = hasError ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const peopleView = hasData ? (
-      <PeopleView peopleList={peopleList} onSelectedPerson={onSelectedPerson} />
+    const itemsView = hasData ? (
+      <ItemsView
+        itemList={itemList}
+        onSelectedItem={onSelectedItem}
+        renderItem={renderItem}
+      />
     ) : null;
 
     return (
       <React.Fragment>
         {errorMessage}
         {spinner}
-        {peopleView}
+        {itemsView}
       </React.Fragment>
     );
   }
 }
 
-const PeopleView = ({ peopleList, onSelectedPerson }) => {
-  const peopleListItems = peopleList.map(({ id, name }) => {
+const ItemsView = ({ itemList, onSelectedItem, renderItem }) => {
+  const itemListItems = itemList.map(item => {
+    const { id } = item;
     return (
       <li
         key={id}
         className="list-group-item"
-        onClick={() => onSelectedPerson(id)}
+        onClick={() => onSelectedItem(id)}
       >
-        {name}
+        {renderItem(item)}
       </li>
     );
   });
 
-  return <ul className="item-list list-group">{peopleListItems}</ul>;
+  return <ul className="item-list list-group">{itemListItems}</ul>;
 };
 
 export default ItemList;
