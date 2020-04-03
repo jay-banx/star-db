@@ -7,7 +7,7 @@ import ItemList from "../ItemList";
 
 const { getAllPeople, getAllPlanets, getAllStarships } = new SwapiService();
 
-const WithChildRenderName = (Wrapped, renderFunc) => {
+const withChildRenderName = (Wrapped, renderFunc) => {
   return props => {
     return <Wrapped {...props}>{renderFunc}</Wrapped>;
   };
@@ -16,15 +16,15 @@ const WithChildRenderName = (Wrapped, renderFunc) => {
 const renderName = ({ name }) => <span>{name}</span>;
 
 const PeopleList = withData(
-  WithChildRenderName(ItemList, renderName),
+  withChildRenderName(ItemList, renderName),
   getAllPeople
 );
 const PlanetsList = withData(
-  WithChildRenderName(ItemList, renderName),
+  withChildRenderName(ItemList, renderName),
   getAllPlanets
 );
 const StarshipsList = withData(
-  WithChildRenderName(ItemList, renderName),
+  withChildRenderName(ItemList, renderName),
   getAllStarships
 );
 

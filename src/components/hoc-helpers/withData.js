@@ -21,12 +21,22 @@ const withData = (View, getData) => {
       });
     };
 
-    componentDidMount() {
+    updateData = () => {
       this.setState({ loading: true, hasError: false }, () => {
-        getData()
+        getData(this.props.itemId)
           .then(this.onGetData)
           .catch(this.onError);
       });
+    };
+
+    componentDidMount() {
+      this.updateData();
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.itemId !== prevProps.itemId) {
+        this.updateData();
+      }
     }
 
     render() {

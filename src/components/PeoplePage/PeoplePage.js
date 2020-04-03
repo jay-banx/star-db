@@ -16,7 +16,7 @@ import {
 
 class PeoplePage extends Component {
   state = {
-    selectedItemId: null
+    selectedItemId: 1
   };
 
   onSelectedItem = selectedItemId => {
@@ -26,9 +26,17 @@ class PeoplePage extends Component {
   render() {
     const { selectedItemId } = this.state;
 
-    const itemList = <PeopleList onSelectedItem={this.onSelectedItem} />;
+    const itemList = (
+      <ErrorBoundry>
+        <StarshipsList onSelectedItem={this.onSelectedItem} />
+      </ErrorBoundry>
+    );
 
-    const itemDetails = <PersonDetails itemId={selectedItemId} />;
+    const itemDetails = (
+      <ErrorBoundry>
+        <StarshipDetails itemId={selectedItemId} />
+      </ErrorBoundry>
+    );
 
     return (
       <ErrorBoundry>
