@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ onToggleSwapiService }) => {
   return (
     <div className="header d-flex">
       <h3>
@@ -19,6 +19,9 @@ const Header = () => {
           <a href="#/starships">Starships</a>
         </li>
       </ul>
+      <button className="btn btn-primary btn-sm" onClick={onToggleSwapiService}>
+        Change SwapiService
+      </button>
     </div>
   );
 };

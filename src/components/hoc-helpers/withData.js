@@ -3,21 +3,21 @@ import React, { Component } from "react";
 import Spinner from "../Spinner";
 import ErrorIndicator from "../ErrorIndicator";
 
-const withData = View => {
+const withData = (View) => {
   return class extends Component {
     state = {
       data: null,
       loading: true,
-      hasError: false
+      hasError: false,
     };
 
-    onGetData = data => {
+    onGetData = (data) => {
       this.setState({ data, loading: false });
     };
 
     onError = () => {
       this.setState({
-        hasError: true
+        hasError: true,
       });
     };
 
@@ -35,7 +35,10 @@ const withData = View => {
     }
 
     componentDidUpdate(prevProps) {
-      if (this.props.itemId !== prevProps.itemId) {
+      if (
+        this.props.itemId !== prevProps.itemId ||
+        this.props.getData !== prevProps.getData
+      ) {
         this.updateData();
       }
     }
@@ -43,18 +46,15 @@ const withData = View => {
     render() {
       const { data, loading, hasError } = this.state;
 
-      const hasData = !(loading || hasError);
+      if (loading) {
+        return <Spinner />;
+      }
 
-      const errorMessage = hasError ? <ErrorIndicator /> : null;
-      const spinner = loading ? <Spinner /> : null;
-      const view = hasData ? <View {...this.props} data={data} /> : null;
-      return (
-        <React.Fragment>
-          {errorMessage}
-          {spinner}
-          {view}
-        </React.Fragment>
-      );
+      if (hasError) {
+        return <ErrorIndicator />;
+      }
+
+      return <View {...this.props} data={data} />;
     }
   };
 };

@@ -1,25 +1,16 @@
 import React, { Component } from "react";
 
-import "./PeoplePage.css";
-
 import Row from "../Row";
 import ErrorBoundry from "../ErrorBoundry";
 
-import {
-  PeopleList,
-  PlanetsList,
-  StarshipsList,
-  PersonDetails,
-  PlanetDetails,
-  StarshipDetails
-} from "../sw-components";
+import { PeopleList, PersonDetails } from "../sw-components";
 
 class PeoplePage extends Component {
   state = {
-    selectedItemId: 1
+    selectedItemId: 1,
   };
 
-  onSelectedItem = selectedItemId => {
+  onSelectedItem = (selectedItemId) => {
     this.setState({ selectedItemId });
   };
 
