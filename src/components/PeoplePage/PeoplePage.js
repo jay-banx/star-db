@@ -28,13 +28,13 @@ class PeoplePage extends Component {
 
     const itemList = (
       <ErrorBoundry>
-        <StarshipsList onSelectedItem={this.onSelectedItem} />
+        <PeopleList onSelectedItem={this.onSelectedItem} />
       </ErrorBoundry>
     );
 
     const itemDetails = (
       <ErrorBoundry>
-        <StarshipDetails itemId={selectedItemId} />
+        <PersonDetails itemId={selectedItemId} />
       </ErrorBoundry>
     );
 
