@@ -1,19 +1,20 @@
 import React from "react";
 
 import ItemDetails, { Record } from "../ItemDetails";
-import { withData, withSwapiService } from "../hoc-helpers";
+import { withData, withSwapiService, compose } from "../hoc-helpers";
 
-const mapStarshipMethodsToProps = swapiService => {
+const mapStarshipMethodsToProps = (swapiService) => {
   return {
-    getData: swapiService.getStarship
+    getData: swapiService.getStarship,
   };
 };
 
-const StarshipDetailsData = withSwapiService(
-  withData(ItemDetails),
-  mapStarshipMethodsToProps
-);
-const StarshipDetails = props => {
+const StarshipDetailsData = compose(
+  withSwapiService(mapStarshipMethodsToProps),
+  withData
+)(ItemDetails);
+
+const StarshipDetails = (props) => {
   return (
     <StarshipDetailsData {...props}>
       <Record field="model" label="Model:" />

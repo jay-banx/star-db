@@ -33,8 +33,6 @@ class App extends Component {
             <Header onToggleSwapiService={this.onToggleSwapiService} />
             <RandomPlanet />
             <PeoplePage />
-            <PlanetsPage />
-            <StarshipsPage />
           </div>
         </SwapiServiceProvider>
       </ErrorBoundry>
