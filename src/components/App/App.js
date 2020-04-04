@@ -4,7 +4,7 @@ import "./App.css";
 
 import Header from "../Header";
 import RandomPlanet from "../RandomPlanet";
-import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages";
+import { PeoplePage } from "../pages";
 import ErrorBoundry from "../ErrorBoundry";
 import { SwapiServiceProvider } from "../swapi-service-context";
 import SwapiService from "../../services/SwapiService";

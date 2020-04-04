@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import "./Header.css";
 
@@ -24,6 +25,14 @@ const Header = ({ onToggleSwapiService }) => {
       </button>
     </div>
   );
+};
+
+Header.defaultProps = {
+  onToggleSwapiService: () => {},
+};
+
+Header.propTypes = {
+  onToggleSwapiService: PropTypes.func,
 };
 
 export default Header;
