@@ -22,7 +22,7 @@ import { PersonDetails } from "../sw-components";
 
 class App extends Component {
   state = {
-    swapiService: new DummySwapiService(),
+    swapiService: new SwapiService(),
     isLoggedIn: false,
   };
 
