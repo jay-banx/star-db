@@ -15,6 +15,9 @@ const StarshipDetailsData = compose(
 )(ItemDetails);
 
 const StarshipDetails = (props) => {
+  if (props.itemId === undefined) {
+    return <div>Choose a starship</div>;
+  }
   return (
     <StarshipDetailsData {...props}>
       <Record field="model" label="Model:" />

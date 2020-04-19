@@ -2,7 +2,7 @@ export default class DummySwapiService {
   _people = [
     {
       id: 1,
-      imageURL: `https://placeimg.com/400/500/people`,
+      imageURL: "https://placeimg.com/400/500/people",
       name: "Bilbo Baggins [TEST DATA]",
       gender: "male",
       birthYear: "long ago",
@@ -11,7 +11,7 @@ export default class DummySwapiService {
 
     {
       id: 2,
-      imageURL: `https://placeimg.com/400/500/people`,
+      imageURL: "https://placeimg.com/400/500/people",
       name: "Frodo Baggins [TEST DATA]",
       gender: "male",
       birthYear: "long ago",
@@ -22,7 +22,7 @@ export default class DummySwapiService {
   _planets = [
     {
       id: 1,
-      imageURL: `https://placeimg.com/400/400/nature`,
+      imageURL: "https://placeimg.com/400/400/nature",
       name: "Earth [TEST DATA]",
       population: "7.530.000.000",
       rotationPeriod: "23 hours 56 seconds",
@@ -30,7 +30,7 @@ export default class DummySwapiService {
     },
     {
       id: 2,
-      imageURL: `https://placeimg.com/400/400/nature`,
+      imageURL: "https://placeimg.com/400/400/nature",
       name: "Venus [TEST DATA]",
       population: "not known",
       rotationPeriod: "243 days",
@@ -41,7 +41,7 @@ export default class DummySwapiService {
   _starships = [
     {
       id: 1,
-      imageURL: `https://placeimg.com/600/400/tech`,
+      imageURL: "https://placeimg.com/600/400/tech",
       name: "USS Enterprise [TEST DATA]",
       model: "NCC-1701-C",
       manufacturer: "Northrop Grumman Shipbuilding",
@@ -53,7 +53,7 @@ export default class DummySwapiService {
     },
     {
       id: 2,
-      imageURL: `https://placeimg.com/600/400/tech`,
+      imageURL: "https://placeimg.com/600/400/tech",
       name: "Death Star [TEST DATA]",
       model: "NCC-UK-R5",
       manufacturer: "Horistic Shipbuilding",
@@ -70,7 +70,7 @@ export default class DummySwapiService {
   };
 
   getPerson = async (id) => {
-    return this._people.find((item) => item.id === id);
+    return this._people.find((item) => item.id === parseInt(id));
   };
 
   getAllPlanets = async () => {
@@ -78,7 +78,7 @@ export default class DummySwapiService {
   };
 
   getPlanet = async (id) => {
-    return this._planets.find((item) => item.id === id);
+    return this._planets.find((item) => item.id === parseInt(id));
   };
 
   getAllStarships = async () => {
@@ -86,6 +86,6 @@ export default class DummySwapiService {
   };
 
   getStarship = async (id) => {
-    return this._starships.find((item) => item.id === id);
+    return this._starships.find((item) => item.id === parseInt(id));
   };
 }

@@ -15,14 +15,14 @@ import {
 } from "../pages";
 
 import { SwapiServiceProvider } from "../swapi-service-context";
-
 import SwapiService from "../../services/SwapiService";
 import DummySwapiService from "../../services/DummySwapiService";
+
 import { PersonDetails } from "../sw-components";
 
 class App extends Component {
   state = {
-    swapiService: new SwapiService(),
+    swapiService: new DummySwapiService(),
     isLoggedIn: false,
   };
 

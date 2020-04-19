@@ -15,6 +15,9 @@ const PlanetDetailsData = compose(
 )(ItemDetails);
 
 const PlanetDetails = (props) => {
+  if (props.itemId === undefined) {
+    return <div>Choose a planet</div>;
+  }
   return (
     <PlanetDetailsData {...props}>
       <Record field="population" label="Population:" />

@@ -12,11 +12,12 @@ const withData = (View) => {
     };
 
     onGetData = (data) => {
-      this.setState({ data, loading: false });
+      this.setState({ data, loading: false, hasError: false });
     };
 
     onError = () => {
       this.setState({
+        loading: false,
         hasError: true,
       });
     };

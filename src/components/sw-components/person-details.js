@@ -15,6 +15,9 @@ const PersonDetailsData = compose(
 )(ItemDetails);
 
 const PersonDetails = (props) => {
+  if (props.itemId === undefined) {
+    return <div>Choose a person</div>;
+  }
   return (
     <PersonDetailsData {...props}>
       <Record field="gender" label="Gender:" />
